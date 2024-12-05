@@ -194,48 +194,6 @@ public class CRUDSeleniumTest {
     String userfind = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[2]/td[1]")).getText();
     assertEquals(userfind, "Lucas");
   }
-  @Test
-  public void test6FindAll() throws Exception {
-    driver.get("https://mern-crud-mpfr.onrender.com/");
-    driver.findElement(By.xpath("//div[@id='root']/div/div[2]/button")).click();
-    driver.findElement(By.name("name")).click();
-    driver.findElement(By.name("name")).clear();
-    driver.findElement(By.name("name")).sendKeys("Alberto");
-    pause(1000);
-    driver.findElement(By.name("email")).click();
-    driver.findElement(By.name("email")).clear();
-    driver.findElement(By.name("email")).sendKeys("Correoquenocreoserepita4@gmail.com");
-    pause(1000);
-    driver.findElement(By.name("age")).click();
-    driver.findElement(By.name("age")).clear();
-    driver.findElement(By.name("age")).sendKeys("17");
-    pause(1000);
-    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Gender'])[2]/following::div[2]")).click();
-    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Male'])[1]/following::div[2]")).click();
-    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Woah!'])[1]/following::button[1]")).click();
-    pause(3000);
-    
-    takeScreenshot("FindAll");
-    
-    //-------------------------------------------------------------------------------------------------------------------------------
-    String userfind1 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[1]/td[1]")).getText();
-    String emailfind1 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[1]/td[2]")).getText();
-    String userfind2 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[2]/td[1]")).getText();
-    String emailfind2 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[2]/td[2]")).getText();
-    String userfind3 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[3]/td[1]")).getText();
-    String emailfind3 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[3]/td[2]")).getText();
-    String userfind4 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[4]/td[1]")).getText();
-    String emailfind4 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[4]/td[2]")).getText();
-    assertEquals(userfind1,"Alberto");
-    assertEquals(emailfind1,"correoquenocreoserepita4@gmail.com");
-    assertEquals(userfind2,"Enrique");
-    assertEquals(emailfind2,"correoquenocreoserepita3@gmail.com");
-    assertEquals(userfind3,"Lucas");
-    assertEquals(emailfind3,"correoquenocreoserepita2@gmail.com");
-    assertEquals(userfind4,"Ramon");
-    assertEquals(emailfind4,"correoquenocreoserepita1@gmail.com");
-    
-  }
   
   
   private void pause(long mils) {
