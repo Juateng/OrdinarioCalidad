@@ -175,21 +175,25 @@ class UserServiceTest {
 
 	@Test
 	public void WhenFindAllUsers_Test() {
-		//Initialize
-		List<User> users = Arrays.asList(
-		        new User("Juan", "JP@gmail.com", "password"),
-		        new User("Ramon", "RD@gmail.com", "password"),
-		        new User("Lorenzo", "LQ@gmail.com","password")
-		    );
-		
-		when(dao.findAll()).thenReturn(users);
-		
-		//Exercise
-		List<User> lista = service.findAllUsers();
-		
-		//Verify
-		assertThat(lista, is(users));
-		assertThat(lista.size(), is(users.size()));
+	    // Initialize
+	    List<User> users = Arrays.asList(
+	            new User("Juan", "JP@gmail.com", "password"),
+	            new User("Ramon", "RD@gmail.com", "password"),
+	            new User("Lorenzo", "LQ@gmail.com", "password")
+	    );
+
+	    when(dao.findAll()).thenReturn(users);
+
+	    // Exercise
+	    List<User> lista = service.findAllUsers();
+
+	    // Verify
+	    assertThat(lista, is(users));
+	    assertThat(lista.size(), is(users.size()));
+	    assertThat(lista.get(0).getEmail(), is("JP@gmail.com"));
+	    assertThat(lista.get(1).getEmail(), is("RD@gmail.com"));  
+	    assertThat(lista.get(2).getEmail(), is("LQ@gmail.com"));  
 	}
+
 	
 }
