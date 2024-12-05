@@ -48,15 +48,9 @@ jobs:
           name: Unit Tests
           command: mvn -Dtest=UserServiceTest -Dsurefire.printSummary=true test
 
-      - run:
+     - run:
           name: Integration Tests
-          command: mvn -Dtest=ServiceTest1 -Dsurefire.printSummary=true test
-          command: mvn -Dtest=ServiceTest2 -Dsurefire.printSummary=true test
-          command: mvn -Dtest=ServiceTest3 -Dsurefire.printSummary=true test
-          command: mvn -Dtest=ServiceTest4 -Dsurefire.printSummary=true test
-          command: mvn -Dtest=ServiceTest5 -Dsurefire.printSummary=true test
-          command: mvn -Dtest=ServiceTest6 -Dsurefire.printSummary=true test
-          command: mvn -Dtest=ServiceTest7 -Dsurefire.printSummary=true test
+          command: mvn -Dtest=ServiceTest1,ServiceTest2,ServiceTest3,ServiceTest4,ServiceTest5,ServiceTest6,ServiceTest7 -Dsurefire.printSummary=true test
           
       - run:
           name: Functional Tests
