@@ -29,6 +29,16 @@ public class CRUDSeleniumTest {
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
     js = (JavascriptExecutor) driver;
   }
+  
+  private void takeScreenshot(String fileName) {
+	    try {
+	      File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+	      FileUtils.copyFile(screenshot, new File("./src/screenshots/" + fileName + ".png"));
+	      System.out.println("Captura guardada como: " + fileName + ".png");
+	    } catch (Exception e) {
+	      System.out.println("Error al tomar captura: " + e.getMessage());
+	 }
+  }
 
   @Test
   public void test1CreateNewUser() throws Exception {
@@ -51,6 +61,8 @@ public class CRUDSeleniumTest {
     driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Woah!'])[1]/following::button[1]")).click();
     //driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Stop'])[1]/following::div[1]")).click();
     pause(1000);
+    
+    takeScreenshot("CreateNewUser");
     
     String isUserCreated = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[1]/td[1]")).getText();
     assertEquals(isUserCreated, "Juan");
@@ -75,7 +87,10 @@ public class CRUDSeleniumTest {
     driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Gender'])[2]/following::div[2]")).click();
     driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Male'])[1]/following::div[2]")).click();
     driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Woah!'])[1]/following::button[1]")).click();
-    pause(1000);    
+    pause(1000);   
+    
+    takeScreenshot("ExistingEmail");
+    
     String errormessage = driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/form/div[5]/div/p")).getText();
     assertEquals(errormessage, "That email is already taken.");
   }
@@ -91,6 +106,9 @@ public class CRUDSeleniumTest {
     pause(1000);
     driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Woah!'])[1]/following::button[1]")).click();
     pause(1000);
+    
+    takeScreenshot("EditAge");
+    
     String ageCheck = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[1]/td[3]")).getText();
     assertEquals(ageCheck, "25");
   }
@@ -99,9 +117,13 @@ public class CRUDSeleniumTest {
   public void test4Delete() throws Exception {
     driver.get("https://mern-crud-mpfr.onrender.com/");
     driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[1]/td[5]/button[2]")).click();
+    
+    takeScreenshot("Deleteuser");
+    
     pause(1000);
     driver.findElement(By.xpath("/html/body/div[3]/div/div[3]/button[1]")).click();
     pause(1000);
+    
     String userErased = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[1]/td[2]")).getText();
     String userExpected = "76546546454654654687987514*@gmail.com";
     assertNotEquals(userErased, userExpected);
@@ -167,6 +189,8 @@ public class CRUDSeleniumTest {
     pause(1000);
   //-------------------------------------------------------------------------------------------------------------------------------
     
+    takeScreenshot("FindByName");
+    
     String userfind = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[2]/td[1]")).getText();
     assertEquals(userfind, "Lucas");
   }
@@ -190,6 +214,9 @@ public class CRUDSeleniumTest {
     driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Male'])[1]/following::div[2]")).click();
     driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Woah!'])[1]/following::button[1]")).click();
     pause(3000);
+    
+    takeScreenshot("FindAll");
+    
     //-------------------------------------------------------------------------------------------------------------------------------
     String userfind1 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[1]/td[1]")).getText();
     String emailfind1 = driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/table/tbody/tr[1]/td[2]")).getText();
