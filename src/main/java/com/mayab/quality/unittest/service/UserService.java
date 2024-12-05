@@ -57,13 +57,9 @@ public class UserService {
 
 
     public boolean deleteUser(int id) {
-    	User user = dao.findById(id);
-        
-        if (user != null) {
-            boolean borrado = dao.deleteUser(id);
-            return borrado;
-        }
-        
-        return false; 
+    	    boolean isDeleted = dao.deleteUser(id);
+
+    	    // Devolver el resultado de la operación
+    	    return isDeleted;
     }
 }

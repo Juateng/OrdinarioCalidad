@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -66,23 +67,22 @@ class UserServiceTest {
 
 // --------------------------------- 1.2 Duplicated Email -----------------------------------
 	@Test
-	public void whenEmailTaken_test(){
-		//initialize
-		String Pass = "123";
-		String name = "user1";
-		String email = "user01@email.com";
-		User user = null;
-		//fake code for findUserByEmail & save methods
-		when(dao.findUserByEmail(anyString())).thenReturn(user);
-		when(dao.save(any(User.class))).thenReturn(0);
-		
-		//Exercise
-		user = service.createUser(name, email, Pass);
-		User expected = null;
-		
-		//Verify
-		assertThat(user, is(expected));
+	public void whenEmailTaken_test() {
+	    // Initialize
+	    String Pass = "123";
+	    String name = "user1";
+	    String email = "user01@email.com";
+	    
+	    User existingUser = new User("existingUser", email, "existingPassword");
+	    
+	    when(dao.findUserByEmail(email)).thenReturn(existingUser);
+	    
+	    User user = service.createUser(name, email, Pass);
+	    User expected = null;
+	    
+	    assertThat(user, is(expected));
 	}
+
 
 // --------------------------------- 2 Update Password -----------------------------------
 	@Test
@@ -120,28 +120,25 @@ class UserServiceTest {
 
 // --------------------------------- 3 Delete User ---------------------------------------
 	@Test
-	public void WhenDeleteUser_test(){
-		//Initialize
-		User deleted = new User("deleted","deleted@gmail.com","delpassword");
-		db.put(1, deleted);
-		deleted.setId(1);
-		
-		when(dao.findById(1)).thenReturn(deleted);
-		
-		//Invocation sirve para respuestas complejas en mockito,
-		//lo use para  borrar la base de datos
-		when(dao.deleteUser(1)).thenAnswer(invocation->{
-			db.remove(1);
-			return true;
-		});
-		
-		//exercise
-		boolean delete = service.deleteUser(1);
-		
-		//Verify
-		assertTrue(delete);
-		assertFalse(db.containsKey(1));
+	public void WhenDeleteUser_test() {
+	    // Initialize
+	    User user = new User("deleted", "deleted@gmail.com", "delpassword");
+	    db.put(1, user);
+	    user.setId(1);
+
+	    when(dao.deleteUser(anyInt())).thenAnswer(invocation -> {
+	        int userId = invocation.getArgument(0);
+	        return db.remove(userId) != null;
+	    });
+
+	    // Exercise
+	    boolean delete = service.deleteUser(user.getId());
+
+	    // Verify
+	    assertThat(delete, is(true));
+	    assertThat(db.containsKey(1), is(false));
 	}
+
 // --------------------------------- 4.1 Find by email -----------------------------------
 	@Test
 	public void WhenSearchByEmailFind_Test(){
