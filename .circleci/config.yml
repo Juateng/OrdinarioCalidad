@@ -3,12 +3,12 @@ version: 2.1
 jobs:
   unit_test:
     docker:
-      - image: circleci/openjdk:17
+      - image: openjdk:17
     steps:
       - checkout
       - run:
-          name: Run Unit Tests with Maven
-          command: mvn clean test
+          name: Run Unit Tests
+          command: ./gradlew test
 
   integration_test:
     docker:
@@ -18,20 +18,19 @@ jobs:
       - run:
           name: Setup Database
           command: |
-            mysql -u root -e "CREATE DATABASE test_db;"
+            mysql -e "CREATE DATABASE test_db;"
       - run:
           name: Run Integration Tests
-          command: mvn clean verify -Pintegration-test
+          command: ./gradlew integrationTest
 
   functional_test:
     docker:
-      - image: selenium/standalone-chrome:latest
-      - image: circleci/openjdk:17
+      - image: circleci/python:3.8
     steps:
       - checkout
       - run:
-          name: Run Selenium Functional Tests
-          command: mvn clean verify -Pfunctional-test
+          name: Run Selenium Tests
+          command: python -m unittest discover tests/functional
 
   deploy:
     docker:
