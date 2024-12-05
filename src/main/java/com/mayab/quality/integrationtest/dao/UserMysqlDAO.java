@@ -135,7 +135,7 @@ public class UserMysqlDAO implements IDAOUser{
 			String password = rs.getString(4);
 			boolean isLogged = rs.getBoolean(5);
 
-			result = new User(username, password, emailUser);
+			result = new User(username,emailUser, password);
 			result.setId(id);
 			result.setLogged(isLogged);
 
@@ -225,7 +225,7 @@ public class UserMysqlDAO implements IDAOUser{
 			String password = rs.getString(4);
 			boolean isLogged = rs.getBoolean(5);
 
-			result = new User(username, password, email);
+			result = new User(username,email, password);
 			result.setId(id);
 			result.setLogged(isLogged);
 

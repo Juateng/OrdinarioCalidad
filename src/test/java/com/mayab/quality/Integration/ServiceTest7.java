@@ -3,6 +3,7 @@ package com.mayab.quality.Integration;
 import java.io.File;
 
 import java.io.FileInputStream;
+import java.util.List;
 
 import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
@@ -18,14 +19,15 @@ import org.junit.jupiter.api.Test;
 
 import com.mayab.quality.integrationtest.dao.IDAOUser;
 import com.mayab.quality.integrationtest.dao.UserMysqlDAO;
+import com.mayab.quality.integrationtest.model.User;
 import com.mayab.quality.integrationtest.service.UserService;
 
-class ServiceTest1 extends DBTestCase {
+class ServiceTest7 extends DBTestCase {
 	
 	private IDAOUser dao;
 	private UserService service;
 	
-	public ServiceTest1() {
+	public ServiceTest7() {
 		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,"com.mysql.cj.jdbc.Driver");
 		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,"jdbc:mysql://localhost:3307/calidad");
 		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME,"root");
@@ -61,24 +63,31 @@ class ServiceTest1 extends DBTestCase {
 
 	
 	@Test
-    public void createUser() {
-        service.createUser("username2", "correo2@correo.com", "12345678");
+	public void findById() {
+	    service.createUser("Juan", "correo1@correo.com", "789456123");
+	    service.createUser("Gerardo", "correo2@correo.com", "789456123");
+	    service.createUser("Rodrigo", "correo3@correo.com", "789456123");
 
-        try {
-            IDatabaseConnection conn = getConnection();
-            conn.getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, true);
-            IDataSet databaseDataSet = conn.createDataSet();
+	    try {
+	        User busqueda = service.findUserById(3);
+	        assertEquals("Rodrigo", busqueda.getName());
 
-            ITable actualTable = databaseDataSet.getTable("usuarios");
+	        IDatabaseConnection conn = getConnection();
+	        conn.getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, true);
+	        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/resources/byid.xml"));
+	        ITable expectedTable = expectedDataSet.getTable("usuarios");
 
-            IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/resources/create.xml"));
-            ITable expectedTable = expectedDataSet.getTable("usuarios");
+	        String expectedName = (String) expectedTable.getValue(0, "name");
+	        String expectedEmail = (String) expectedTable.getValue(0, "email");
+	        String expectedPassword = (String) expectedTable.getValue(0, "password");
 
-            Assertion.assertEquals(expectedTable, actualTable);
+	        assertEquals(expectedName, busqueda.getName());
+	        assertEquals(expectedEmail, busqueda.getEmail());
+	        assertEquals(expectedPassword, busqueda.getPassword());
 
-        } catch (Exception e) {
-            fail("Error in insert test: " + e.getMessage());
-        }
+	    } catch (Exception e) {
+	        fail("Error in findById test: " + e.getMessage());
+	    }
 	}
+
 }
-   

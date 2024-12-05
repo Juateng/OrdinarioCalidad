@@ -18,14 +18,15 @@ import org.junit.jupiter.api.Test;
 
 import com.mayab.quality.integrationtest.dao.IDAOUser;
 import com.mayab.quality.integrationtest.dao.UserMysqlDAO;
+import com.mayab.quality.integrationtest.model.User;
 import com.mayab.quality.integrationtest.service.UserService;
 
-class ServiceTest1 extends DBTestCase {
+class ServiceTest4 extends DBTestCase {
 	
 	private IDAOUser dao;
 	private UserService service;
 	
-	public ServiceTest1() {
+	public ServiceTest4() {
 		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,"com.mysql.cj.jdbc.Driver");
 		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,"jdbc:mysql://localhost:3307/calidad");
 		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME,"root");
@@ -61,24 +62,29 @@ class ServiceTest1 extends DBTestCase {
 
 	
 	@Test
-    public void createUser() {
-        service.createUser("username2", "correo2@correo.com", "12345678");
+	public void DeleteUser() {
+		 
+		service.createUser("Juan","correo1@correo.com","789456123");
+		service.createUser("Gerardo","correo2@correo.com","789456123");
 
-        try {
-            IDatabaseConnection conn = getConnection();
-            conn.getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, true);
-            IDataSet databaseDataSet = conn.createDataSet();
+		service.deleteUser(2);
 
-            ITable actualTable = databaseDataSet.getTable("usuarios");
+		 try {
+			 IDatabaseConnection conn = getConnection();
+		        conn.getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, true);
+		        IDataSet databaseDataSet = conn.createDataSet();
+		        ITable actualTable = databaseDataSet.getTable("usuarios");
 
-            IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/resources/create.xml"));
-            ITable expectedTable = expectedDataSet.getTable("usuarios");
+		        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/resources/delete.xml"));
+		        ITable expectedTable = expectedDataSet.getTable("usuarios");
 
-            Assertion.assertEquals(expectedTable, actualTable);
+		        Assertion.assertEquals(actualTable, expectedTable);
 
-        } catch (Exception e) {
-            fail("Error in insert test: " + e.getMessage());
-        }
-	}
+		    } catch (Exception e) {
+		        fail("Error in update test: " + e.getMessage());
+		    }
+		}
+
+
+
 }
-   

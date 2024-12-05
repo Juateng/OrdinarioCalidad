@@ -43,18 +43,18 @@ private IDAOUser dao;
 	public User findUserById(int id) {
 			
 			return dao.findById(id);
-		}
+	}
 	    
-	    public User updateUser(User user) {
-	    	User userOld = dao.findById(user.getId());
-	    	userOld.setName(user.getName());
-	    	userOld.setPassword(user.getPassword());
-	    	return dao.updateUser(userOld);
-	    }
+	public User updateUser(User user) {
+	    User userOld = dao.findById(user.getId());
+	    userOld.setName(user.getName());
+	    userOld.setPassword(user.getPassword());
+	    return dao.updateUser(userOld);
+	}
 	
 	    
 	
-	    boolean deleteUser(int id) {
+	 public boolean deleteUser(int id) {
 	    	return dao.deleteById(id);
     }
 }
