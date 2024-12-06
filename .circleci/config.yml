@@ -48,9 +48,9 @@ jobs:
           name: Unit Tests
           command: mvn -Dtest=UserServiceTest -Dsurefire.printSummary=true test
 
-      - run:  # Indentación corregida
-          name: Integration Tests
-          command: mvn -Dtest=ServiceTest1,ServiceTest2,ServiceTest3,ServiceTest4,ServiceTest5,ServiceTest6,ServiceTest7 -Dsurefire.printSummary=true test
+      - run:
+          name: Integration Tests1
+          command: mvn -Dtest=ServiceTest* -Dsurefire.printSummary=true test
           
       - run:
           name: Functional Tests
