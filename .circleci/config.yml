@@ -59,6 +59,8 @@ jobs:
       - store_artifacts:
           path: src/screenshots
           destination: screenshots
+      - store_test_result:
+          path: target/surefire-reports
 
   deployment:
     docker:
