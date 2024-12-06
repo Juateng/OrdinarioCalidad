@@ -42,7 +42,7 @@ jobs:
 
       - run:
           name: Unit Tests
-          command: mvn -Dtest=UserServiceTest -Dsurefire.printSummary=true test
+          command: mvn -Dtest=com.mayab.quality.unittest.service.UserServiceTest -Dsurefire.printSummary=true test
 
       - run:  # Indentación corregida
           name: Integration Tests
@@ -50,7 +50,7 @@ jobs:
           
       - run:
           name: Functional Tests
-          command: mvn -Dtest=CRUDSeleniumTest -Dsurefire.printSummary=true test
+          command: mvn -Dtest=com.mayab.quality.functional.CRUDSeleniumTest -Dsurefire.printSummary=true test
 
   deployment:
     docker:
