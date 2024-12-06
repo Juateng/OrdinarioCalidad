@@ -114,7 +114,7 @@ class UserServiceTest {
 		User result = service.updateUser(newUser);
 		
 		//Verification
-		assertThat(result.getName(),is("oldUser1"));
+		assertThat(result.getName(),is("oldUser"));
 		assertThat(result.getEmail(),is("oldEmail"));
 		assertThat(result.getPassword(), is("newPassword"));
 	}
