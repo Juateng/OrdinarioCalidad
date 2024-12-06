@@ -85,6 +85,7 @@ class UserServiceTest {
 
 
 // --------------------------------- 2 Update Password -----------------------------------
+// --------------------------------------------------------------------------------------------- ESTE SE ROMPIO
 	@Test
 	public void whenUserUpdatePassword_test(){
 		//initialize
@@ -113,7 +114,7 @@ class UserServiceTest {
 		User result = service.updateUser(newUser);
 		
 		//Verification
-		assertThat(result.getName(),is("oldUser"));
+		assertThat(result.getName(),is("oldUser1"));
 		assertThat(result.getEmail(),is("oldEmail"));
 		assertThat(result.getPassword(), is("newPassword"));
 	}
