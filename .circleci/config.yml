@@ -25,6 +25,10 @@ jobs:
           command: sleep 30
 
       - run:
+          name: Show Databases
+          command: mysql -h 127.0.0.1 -u root -p123456 -e "SHOW DATABASES;"
+
+      - run:
           name: Create database 
           command: mysql -h 127.0.0.1 -u root -p123456 calidad < src/resources/SQL_table.sql
 
@@ -37,8 +41,12 @@ jobs:
           command: curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
 
       - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
+
+      - run:
           name: Unit Tests
-          command: mvn -Dtest=com.mayab.quality.unittest.service.UserServiceTest -Dsurefire.printSummary=true test
+          command: mvn -Dtest=UserServiceTest -Dsurefire.printSummary=true test
 
       - run:  # Indentación corregida
           name: Integration Tests
@@ -46,7 +54,7 @@ jobs:
           
       - run:
           name: Functional Tests
-          command: mvn -Dtest=com.mayab.quality.functional.CRUDSeleniumTest -Dsurefire.printSummary=true test
+          command: mvn -Dtest=CRUDSeleniumTest -Dsurefire.printSummary=true test
 
   deployment:
     docker:
@@ -55,7 +63,7 @@ jobs:
     steps:
       - run:
           name: Deploy
-          command: echo "Deploy done"
+          command: echo "Deploying... deploy done"
 
 workflows:
   build_and_test:
